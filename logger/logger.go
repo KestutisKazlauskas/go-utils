@@ -36,10 +36,19 @@ func init() {
 type loggerInterface interface {
 	Info(string)
 	Error(string, error)
+	Printf(string, ...interface{})
 }
 
 type logger struct {
 	log *zap.Logger
+}
+
+func (l *logger) Printf(msg string, v ...interface{}) {
+	if len(v) === 0 {
+		l.Info(msg)
+	} else {
+		l.Info(fmt.Sprintf(format, v...))
+	}
 }
 
 func (l *logger) Info(msg string) {
