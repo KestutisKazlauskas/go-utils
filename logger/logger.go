@@ -45,9 +45,9 @@ type logger struct {
 
 func (l *logger) Printf(msg string, v ...interface{}) {
 	if len(v) === 0 {
-		l.Info(msg)
+		l.log.Info(msg)
 	} else {
-		l.Info(fmt.Sprintf(format, v...))
+		l.log.Info(fmt.Sprintf(format, v...))
 	}
 }
 
