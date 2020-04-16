@@ -15,29 +15,29 @@ type RestErr interface {
 }
 
 type restErr struct {
-	message string  `json:"message"`
-	status 	int 	`json:"status"`
-	error 	string 	`json:"error"`
+	ErrMessage string  `json:"message"`
+	ErrStatus 	int 	`json:"status"`
+	ErrError 	string 	`json:"error"`
 }
 
 func (err restErr) Message() string {
-	return err.message
+	return err.ErrMessage
 }
 
 func (err restErr) Status() int {
-	return err.status
+	return err.ErrStatus
 }
 
 func (err restErr) Error() string {
 	return fmt.Sprintf(
-		"message: %s, status: %d, error: %s", err.message, err.status, err.error)
+		"message: %s, status: %d, error: %s", err.ErrMessage, err.ErrStatus, err.ErrError)
 }
 
 func NewRestError (message string, status int, error string) RestErr {
 	return restErr{
-		message: message,
-		status: status,
-		error: error,
+		ErrMessage: message,
+		ErrStatus: status,
+		ErrError: error,
 	}
 }
 
@@ -51,25 +51,25 @@ func NewRestErrorFromBytes(bytes []byte) (RestErr, error) {
 
 func NewBadRequestError(message string) RestErr {
 	return restErr{
-		message: message,
-		status: http.StatusBadRequest,
-		error: "bad_request",
+		ErrMessage: message,
+		ErrStatus: http.StatusBadRequest,
+		ErrError: "bad_request",
 	}
 }
 
 func NewNotFoundError(message string) RestErr {
 	return restErr{
-		message: message,
-		status: http.StatusNotFound,
-		error: "not_found",
+		ErrMessage: message,
+		ErrStatus: http.StatusNotFound,
+		ErrError: "not_found",
 	}
 }
 
 func NewUnauthorizedError(message string) RestErr {
 	return restErr{
-		message: message,
-		status: http.StatusUnauthorized,
-		error: "unauthorized",
+		ErrMessage: message,
+		ErrStatus: http.StatusUnauthorized,
+		ErrError: "unauthorized",
 	}
 }
 
@@ -82,8 +82,8 @@ func NewInternalServerError(message string, err error, logger logger) RestErr {
 		logger.Error(message, err)
 	}
 	return restErr{
-		message: "Something went wrong.",
-		status: http.StatusInternalServerError,
-		error: "internal_server_error",
+		ErrMessage: "Something went wrong.",
+		ErrStatus: http.StatusInternalServerError,
+		ErrError: "internal_server_error",
 	}
 }
